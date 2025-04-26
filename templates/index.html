@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Text Blocks</h1>
+
+<form action="/add" method="POST">
+    <div class="form-group">
+        <label for="title">Title</label>
+        <input type="text" name="title" id="title" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label for="content">Content</label>
+        <textarea name="content" id="content" class="form-control" required></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Add Text Block</button>
+</form>
+
+<h2>Your Text Blocks</h2>
+{% if text_blocks|length > 0 %}
+<table>
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Content</th>
+            <th>Date Created</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for text_block in text_blocks %}
+        <tr>
+            <td>{{ text_block.title }}</td>
+            <td>
+                <div class="text-content">
+                    {{ text_block.content }}
+                </div>
+            </td>
+            <td>{{ text_block.date_created.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+            <td>
+                <a href="/update/{{ text_block.id }}" class="btn">Edit</a>
+                <a href="/delete/{{ text_block.id }}" class="btn btn-danger">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>No text blocks found. Add one above!</p>
+{% endif %}
+{% endblock %}
